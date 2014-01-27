@@ -11,7 +11,7 @@ require '~/.pryrc-helpers'
 ___ = PryrcHelpers
 
 # what are the gems you use daily in REPL? Put them in ___daily_gems
-___daily_gems  = %w[benchmark yaml json sqlite3]
+___daily_gems  = %w[benchmark yaml json]
 
 # ___pry_gems is for loading vendor plugins for Pry.
 ___pry_gems = %w[awesome_print hirb sketches debugger pry-debugger pry-stack_explorer]
@@ -105,7 +105,7 @@ if defined? AwesomePrint
   if defined? Bundler
     Gem.post_reset_hooks.reject! { |hook| hook.source_location.first =~ %r{/bundler/} }
     Gem::Specification.reset
-    load 'rubygems/custom_require.rb'
+    #load 'rubygems/custom_require.rb'
   end
 
   ## awesome_print config for Minitest.
@@ -120,6 +120,22 @@ end # End of AwesomePrint
 
 ### End of Vendor Stuff
 
+# Launch Pry with access to the entire Rails stack.
+rails = File.join(Dir.getwd, 'config', 'environment.rb')
+if File.exist?(rails) && ENV['RAILS']
+  require rails
+  case Rails.version.to_i
+  when 2
+    require 'console_app'
+    require 'console_with_helpers'
+  when 3
+    require 'rails/console/app'
+    require 'rails/console/helpers'
+    extend Rails::ConsoleMethods if Rails.version.to_f >= 3.2
+  else
+    warn '[WARN] cannot load Rails console commands'
+  end
+end
 # ==============================
 #   Pry Configurations
 # ==============================
@@ -129,7 +145,12 @@ Pry.config.history.file = "~/.irb_history"
 
 # Editors
 #   available options: vim, mvim, mate, emacsclient...etc.
-Pry.config.editor = "subl"
+Pry.config.editor = "vim"
+
+# ==============================
+#   Pry Theme
+# ==============================
+Pry.config.theme = 'solarized'
 
 # ==============================
 #   Pry Prompt
@@ -244,6 +265,9 @@ end
 # ==============================
 Pry.active_sessions = 0
 
+if Pry.config.hooks.hook_exists?(:before_session, :welcome)
+  Pry.config.hooks.delete_hook(:before_session, :welcome)
+end
 Pry.config.hooks.add_hook(:before_session, :welcome) do
     if Pry.active_sessions.zero?
       puts "Hello #{___.user}! I'm Pry #{Pry::VERSION}."
@@ -269,6 +293,9 @@ end
 # ==============================
 #   So long, farewell...
 # ==============================
+if Pry.config.hooks.hook_exists?(:after_session, :farewell)
+  Pry.config.hooks.delete_hook(:after_session, :farewell)
+end
 Pry.config.hooks.add_hook(:after_session, :farewell) do
   Pry.active_sessions -= 1
   if Pry.active_sessions.zero?
