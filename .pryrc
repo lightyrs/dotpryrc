@@ -1,62 +1,24 @@
-# ==============================
-#   .pryrc
-# ==============================
-
-# Record how long you hack with Ruby this session.
-pryrc_start_time = Time.now
-
 require '~/.pryrc-helpers'
 
 # ___ is to Avoid name conflict
 ___ = PryrcHelpers
 
-# what are the gems you use daily in REPL? Put them in ___daily_gems
-___daily_gems  = %w[benchmark yaml json]
+___daily_gems  = %w(benchmark yaml json).___require_gems
+___pry_gems = %w(
+  awesome_print hirb sketches debugger
+  byebug pry-byebug pry-stack_explorer
+).___require_gems
 
-# ___pry_gems is for loading vendor plugins for Pry.
-___pry_gems = %w[awesome_print hirb sketches debugger pry-debugger pry-stack_explorer]
-
-___daily_gems.___require_gems
-___pry_gems.___require_gems
-
-## Enable Pry's show-method in Ruby 1.8.7
 # https://github.com/pry/pry/wiki/FAQ#how-can-i-use-show-method-with-ruby-187
 if RUBY_VERSION == "1.8.7"
   safe_require 'ruby18_source_location', "Install this gem to enable Pry's show-method"
   warn 'Ruby 1.8.7 is retired now, please consider upgrade to newer version of Ruby.'
 end
 
-# ==============================
-#  Some FAQ
-# ==============================
-
 # https://github.com/pry/pry/wiki/FAQ#why-doesnt-pry-work-with-ruby-191
 if RUBY_VERSION == "1.9.1"
   warn '1.9.1 has known issue with Pry. Please upgrade to 1.9.3-p448 or Ruby 2.0+.'
 end
-
-## Why is my emacs shell output showing odd characters?
-# [1A[0Ginput> [1B[0Ginput>
-# https://github.com/pry/pry/wiki/FAQ#how-can-i-use-show-method-with-ruby-187
-# This will fix it.
-# Pry.config.auto_indent = false
-
-# ==============================
-#  Vulnerability Reminder
-# ==============================
-
-if RUBY_REVISION < 43780
-  print ___.colorize "YOUR RUBY #{RUBY_VERSION}-p#{RUBY_PATCHLEVEL} HAS VULNERABILITIES, PLEASE CONSIDER UPGRADE TO LATEST VERSION. ", 31
-  print ___.colorize "MORE INFORMATION: http://goo.gl/mmcAQz\n", 31
-end
-
-# ==============================
-#  Vendor Stuff
-# ==============================
-
-###   Printing!
-# (1) hirb
-# (2) Awesome Print
 
 # ============================
 #   hirb
@@ -93,7 +55,9 @@ if defined? AwesomePrint
   AwesomePrint.pry!
   ## The following line enables awesome_print for all pry output,
   # and enables paging using Pry's pager with awesome_print.
-  Pry.config.print = proc {|output, value| Pry::Helpers::BaseHelpers.stagger_output("=> #{value.ai(indent: 2)}", output)}
+  Pry.config.print = proc { |output, value|
+    Pry::Helpers::BaseHelpers.stagger_output("=> #{value.ai(indent: 2)}", output)
+  }
   ## If you want awesome_print without automatic pagination, use below:
   # Pry.config.print = proc { |output, value| output.puts value.ai }
 
@@ -116,26 +80,8 @@ if defined? AwesomePrint
       end
     end
   end
-end # End of AwesomePrint
-
-### End of Vendor Stuff
-
-# Launch Pry with access to the entire Rails stack.
-rails = File.join(Dir.getwd, 'config', 'environment.rb')
-if File.exist?(rails) && ENV['RAILS']
-  require rails
-  case Rails.version.to_i
-  when 2
-    require 'console_app'
-    require 'console_with_helpers'
-  when 3
-    require 'rails/console/app'
-    require 'rails/console/helpers'
-    extend Rails::ConsoleMethods if Rails.version.to_f >= 3.2
-  else
-    warn '[WARN] cannot load Rails console commands'
-  end
 end
+
 # ==============================
 #   Pry Configurations
 # ==============================
@@ -156,7 +102,7 @@ Pry.config.theme = 'solarized'
 #   Pry Prompt
 # ==============================
 # with AWS:
-#             AWS@2.0.0 (main)>
+#             AWS@3.0.0 (main)>
 # with Rails:
 #             3.2.13@2.0.0 (main)>
 # Plain Ruby:
@@ -175,12 +121,14 @@ Pry.config.exception_handler = proc do |output, exception, _|
   puts ___.colorize "from #{exception.backtrace.first}", 31
 end
 
-# Handy hotkeys for debugging!
-if defined?(PryDebugger)
-  Pry.config.commands.alias_command 'c', 'continue'
-  Pry.config.commands.alias_command 's', 'step'
-  Pry.config.commands.alias_command 'n', 'next'
-  Pry.config.commands.alias_command 'f', 'finish'
+if defined?(Hirb)
+  Pry::Commands.block_command 'hirb', 'Hirb enable/disable' do |enabled|
+    if enabled
+      Hirb.enable
+    else
+      Hirb.disable
+    end
+  end
 end
 
 # ==============================
@@ -225,12 +173,13 @@ if RUBY_PLATFORM =~ /darwin/i # OSX only.
   end
 
   Pry.config.commands.command "pbcopy", "Copy last returned object to clipboard, -m for multiline copy" do
-
     multiline = arg_string == '-m'
-    pbcopy _pry_.last_result.ai(:plain => true,
-                                :indent => 2,
-                                :index => false,
-                                :multiline => multiline)
+    pbcopy _pry_.last_result.ai(
+      :plain => true,
+      :indent => 2,
+      :index => false,
+      :multiline => multiline
+    )
     output.puts "Copied #{multiline ? 'multilined' : ''}!"
   end
 
@@ -243,68 +192,3 @@ end
 # Copy to clipboard (If you're not using Mac OSX)
 # First, you need to install jist gem
 # pry> install-command clipit, you're all set now!
-
-### End of Copy to clipboard
-
-# ==============================
-#   Rails
-# ==============================
-
-if defined?(Rails)
-  begin
-    require "rails/console/app"
-    require "rails/console/helpers"
-  rescue LoadError => e
-    require "console_app"
-    require "console_with_helpers"
-  end
-end
-
-# ==============================
-#   Welcome to Pry
-# ==============================
-Pry.active_sessions = 0
-
-if Pry.config.hooks.hook_exists?(:before_session, :welcome)
-  Pry.config.hooks.delete_hook(:before_session, :welcome)
-end
-Pry.config.hooks.add_hook(:before_session, :welcome) do
-    if Pry.active_sessions.zero?
-      puts "Hello #{___.user}! I'm Pry #{Pry::VERSION}."
-      puts "I'm Loading Ruby #{RUBY_VERSION}-p#{RUBY_PATCHLEVEL} and everything else for you:"
-
-      ### Fake Loading Progress bar
-      # |====================>
-      [*1..9].each do |e|
-        print ___.pryrc_progress_bar e
-        $stdout.flush
-        sleep ___.pryrc_speed
-      end
-
-      # Print |==================> Load Completed!
-      # 9 is to keep progress bar have the same length (see above each loop)
-      print ___.pryrc_progress_bar 9, true
-
-      puts ___.welcome_messages
-    end
-  Pry.active_sessions += 1
-end
-
-# ==============================
-#   So long, farewell...
-# ==============================
-if Pry.config.hooks.hook_exists?(:after_session, :farewell)
-  Pry.config.hooks.delete_hook(:after_session, :farewell)
-end
-Pry.config.hooks.add_hook(:after_session, :farewell) do
-  Pry.active_sessions -= 1
-  if Pry.active_sessions.zero?
-    if ___.true_true_or_false
-      puts ___.farewell_messages
-    else
-      interpreted_time = ___.interpret_time(Time.now - pryrc_start_time)
-      interpreted_time = 'ever' if interpreted_time == '0 second'
-      puts "Hack with Ruby for #{interpreted_time}!"
-    end
-  end
-end
