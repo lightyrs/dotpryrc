@@ -5,8 +5,9 @@ ___ = PryrcHelpers
 
 ___daily_gems  = %w(benchmark yaml json).___require_gems
 ___pry_gems = %w(
-  awesome_print hirb sketches debugger
-  byebug pry-byebug pry-stack_explorer
+  awesome_print hirb hirb-unicode sketches pry-byebug
+  pry-stack_explorer pry-doc pry-remote pry-git pry-rails pry-theme
+  jist coolline coderay
 ).___require_gems
 
 # https://github.com/pry/pry/wiki/FAQ#how-can-i-use-show-method-with-ruby-187
@@ -192,3 +193,13 @@ end
 # Copy to clipboard (If you're not using Mac OSX)
 # First, you need to install jist gem
 # pry> install-command clipit, you're all set now!
+
+Pry.config.commands.alias_command '..', 'cd ..'
+Pry.config.commands.alias_command '...', 'cd ../..'
+Pry.config.commands.alias_command '....', 'cd ../../..'
+
+Pry.config.commands.alias_command 'e', 'edit'
+Pry.config.commands.alias_command 'rm', 'reload-method'
+Pry.config.commands.alias_command 'ss', 'show-source'
+Pry.config.commands.alias_command 'fm', 'find-method'
+Pry.config.commands.alias_command 'bt', 'pry-backtrace'
