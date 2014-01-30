@@ -1,3 +1,4 @@
+require 'sketches'
 require '~/.pryrc-helpers'
 
 # ___ is to Avoid name conflict
@@ -6,8 +7,8 @@ ___ = PryrcHelpers
 ___daily_gems  = %w(benchmark yaml json).___require_gems
 ___pry_gems = %w(
   awesome_print hirb hirb-unicode sketches pry-byebug
-  pry-stack_explorer pry-doc pry-remote pry-git pry-rails pry-theme
-  jist coolline coderay
+  pry-stack_explorer pry-doc pry-coolline pry-remote pry-git
+  pry-rails pry-theme pry-vterm_aliases jist coolline coderay
 ).___require_gems
 
 # https://github.com/pry/pry/wiki/FAQ#how-can-i-use-show-method-with-ruby-187
@@ -199,6 +200,11 @@ Pry.config.commands.alias_command '...', 'cd ../..'
 Pry.config.commands.alias_command '....', 'cd ../../..'
 
 Pry.config.commands.alias_command 'e', 'edit'
+Pry.config.commands.alias_command 'em', 'edit -m'
+Pry.config.commands.alias_command 'ec', 'edit -c'
+Pry.config.commands.alias_command 'ca', 'cd-cause'
+Pry.config.commands.alias_command 'ta', 'try-again'
+
 Pry.config.commands.alias_command 'rm', 'reload-method'
 Pry.config.commands.alias_command 'ss', 'show-source'
 Pry.config.commands.alias_command 'fm', 'find-method'
