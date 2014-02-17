@@ -198,12 +198,9 @@ Pry.config.commands.alias_command '..', 'cd ..'
 Pry.config.commands.alias_command '...', 'cd ../..'
 Pry.config.commands.alias_command '....', 'cd ../../..'
 
-Pry.config.commands.alias_command 'e', 'edit'
+Pry.config.commands.alias_command 'ed', 'edit'
 Pry.config.commands.alias_command 'em', 'edit -m'
 Pry.config.commands.alias_command 'ec', 'edit -c'
-
-#Pry.config.commands.alias_command 'ca', 'cd-cause'
-#Pry.config.commands.alias_command 'ta', 'try-again'
 
 Pry.config.commands.alias_command 'la', 'ls -ppp'
 Pry.config.commands.alias_command 'll', 'ls -M'
