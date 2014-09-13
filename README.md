@@ -4,7 +4,7 @@ My customized fork of [original dotpryrc](https://github.com/JuanitoFatas/dotpry
 
 I want my tools to just work, right now, out of the box, without a pain.
 I want to be able to debug as quickly as possible.
-And also i want syntax highlighting & code formatting in Pry session.
+And also i want syntax highlighting & code formatting in a Pry session.
 
 ## What is [Pry](https://github.com/pry/pry/)?
 
@@ -34,8 +34,5 @@ than install missing gems & you're set.
 
 If you're using ruby 2 + [byebug](https://github.com/deivid-rodriguez/byebug) + [pry-byebug](https://github.com/deivid-rodriguez/pry-byebug), there are [some](https://github.com/vyorkin/dotpryrc/blob/master/config/hotkeys.rb)
 [aliases available](https://github.com/vyorkin/dotpryrc/blob/master/config/aliases.rb) for you.
-
-
-## 
 
 Fork & customize it for your personal needs (as i did).
