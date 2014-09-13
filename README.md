@@ -30,9 +30,13 @@ Clone this repo somewhere (e.g. ~/.dotpryrc) and
 `require 'dotpryrc/bootstrap'` in your ~/.pryrc,
 than install missing gems & you're set.
 
+Your pry history file, [pry theme](https://github.com/kyrylo/pry-theme) and editor is set [here](https://github.com/vyorkin/dotpryrc/blob/master/config/base.rb).
+Please take a quick look at the defaults cuz you might want to change them.
+
 ## Usage
 
 If you're using ruby 2 + [byebug](https://github.com/deivid-rodriguez/byebug) + [pry-byebug](https://github.com/deivid-rodriguez/pry-byebug), there are [some](https://github.com/vyorkin/dotpryrc/blob/master/config/hotkeys.rb)
 [aliases available](https://github.com/vyorkin/dotpryrc/blob/master/config/aliases.rb) for you.
+
 
 Fork & customize it for your personal needs (as i did).
