@@ -1,9 +1,9 @@
 # dotpryrc for you and me!
 
-My customized fork of [original dotpryrc](https://github.com/JuanitoFatas/dotpryrc).
+My customized fork of the [original dotpryrc](https://github.com/JuanitoFatas/dotpryrc).
 
 I want my tools to just work, right now, out of the box, without a pain.
-I want to be able to debug as quickly as possible.
+I want to be able to dig into a problem & debug as quickly as possible.
 And also i want syntax highlighting & code formatting in a Pry session.
 
 ## What is [Pry](https://github.com/pry/pry/)?
