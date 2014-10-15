@@ -25,7 +25,7 @@ module PryrcUtils
     gems.each do |gem|
       begin
         require gem
-      rescue LoadError => err
+      rescue LoadError
         missing << gem
       end
     end
