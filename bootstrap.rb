@@ -4,7 +4,7 @@ PryrcUtils.require_gems(%w(benchmark yaml json))
 PryrcUtils.require_gems(%w(
   awesome_print hirb hirb-unicode sketches pry-byebug
   pry-doc pry-coolline pry-remote pry-git
-  pry-theme coolline coderay
+  pry-theme coolline coderay pry-editline
 ))
 
 %w(
