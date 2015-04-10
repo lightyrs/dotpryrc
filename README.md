@@ -39,4 +39,5 @@ If you're using ruby 2 + [byebug](https://github.com/deivid-rodriguez/byebug) + 
 [aliases available](https://github.com/vyorkin/dotpryrc/blob/master/config/aliases.rb) for you.
 
 
-Fork & customize it for your personal needs (as i did).
+Fork & customize it for your personal needs.
+

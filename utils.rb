@@ -20,7 +20,7 @@ module PryrcUtils
   end
 
   # Require many gems at once.
-  def require_gems(gems)
+  def require_gems(gems, warn = false)
     missing = []
     gems.each do |gem|
       begin
@@ -29,6 +29,9 @@ module PryrcUtils
         missing << gem
       end
     end
-    puts 'Missing ' + missing.join(' ') + ' gems' unless missing.empty?
+
+    if warn
+      puts 'Missing ' + missing.join(' ') + ' gems' unless missing.empty?
+    end
   end
 end
