@@ -17,4 +17,5 @@ Pry.commands.alias_command 'ss', 'show-source'
 Pry.commands.alias_command 'fm', 'find-method'
 Pry.commands.alias_command 'bt', 'pry-backtrace'
 
-Pry.commands.alias_command 'e', 'exit!'
+Pry.commands.alias_command 'q', '!!!'
+

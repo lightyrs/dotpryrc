@@ -20,7 +20,7 @@ if RUBY_PLATFORM =~ /darwin/i # OSX only.
     IO.popen('pbcopy', 'r+') { |io| io.print str }
   end
 
-  Pry.config.commands.command "pbcopy", "Copy last returned object to clipboard, -m for multiline copy" do
+  Pry.commands.command "pbcopy", "Copy last returned object to clipboard, -m for multiline copy" do
     multiline = arg_string == '-m'
     pbcopy _pry_.last_result.ai(
       :plain => true,
@@ -31,5 +31,5 @@ if RUBY_PLATFORM =~ /darwin/i # OSX only.
     output.puts "Copied #{multiline ? 'multilined' : ''}!"
   end
 
-  Pry.config.commands.alias_command 'cp', 'pbcopy'
+  Pry.commands.alias_command 'cp', 'pbcopy'
 end
