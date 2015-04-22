@@ -3,7 +3,7 @@ def yaml(obj)
 end
 
 def bm(&block)
-  Benchmark.measure &block
+  Benchmark.measure(&block)
 end
 
 def lorem
