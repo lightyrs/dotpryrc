@@ -7,9 +7,9 @@ if defined? AwesomePrint
   AwesomePrint.pry!
   # The following line enables awesome_print for all pry output,
   # and enables paging using Pry's pager with awesome_print.
-  Pry.config.print = proc do |output, value|
-    Pry::Helpers::BaseHelpers.stagger_output("=> #{value.ai(indent: 2)}", output)
-  end
+  # Pry.config.print = proc do |output, value|
+  #   Pry::Helpers::BaseHelpers.stagger_output("=> #{value.ai(indent: 2)}", output)
+  # end
 
   # If you want awesome_print without automatic pagination, use below:
   # Pry.config.print = proc { |output, value| output.puts value.ai }
